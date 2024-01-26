@@ -1,0 +1,20 @@
+{
+    "name": "WAPower",
+    "version": "0.01",
+    "description": "",
+    "permissions": [
+        "storage",
+        "activeTab",
+        "webNavigation",
+        "tabs"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["https://web.whatsapp.com/*"],
+            "js": ["scripts/manipulate_one_time_messages.js"],
+            "run_at": "document_end"
+        }
+    ],
+    "host_permissions" : ["https://web.whatsapp.com/"],
+    "manifest_version": 3
+}
