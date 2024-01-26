@@ -1,6 +1,6 @@
 {
-    "name": "WAPower",
-    "version": "0.01",
+    "name": "WhatsApp-Web-Plus",
+    "version": "0.0.1",
     "description": "",
     "permissions": [
         "storage",
@@ -11,10 +11,13 @@
     "content_scripts": [
         {
             "matches": ["https://web.whatsapp.com/*"],
-            "js": ["scripts/manipulate_one_time_messages.js"],
+            "js": [
+                "./index.js"
+            ],
             "run_at": "document_end"
         }
     ],
     "host_permissions" : ["https://web.whatsapp.com/"],
-    "manifest_version": 3
+    "manifest_version": 3,
+    "web_accessible_resources": [{"resources": ["scripts/*", "packed.js"], "matches": ["https://web.whatsapp.com/*"]} ]
 }
