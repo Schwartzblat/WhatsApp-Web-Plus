@@ -22,13 +22,10 @@ const handle_message = (message) => {
 const initialize_message_hook = () => {
     const original_processor = window.mR.modules[992321].processRenderableMessages
     window.mR.modules[992321].processRenderableMessages = function () {
-        for (const [index, message] of Object.entries(arguments[0])) {
+        arguments[0] = arguments[0].filter((message) => {
             console.log(message);
-            const should_ignore = handle_message(message);
-            if (should_ignore) {
-                arguments[0].splice(index, 1);
-            }
-        }
+            return !handle_message(message);
+        });
         return original_processor(...arguments);
     };
 };

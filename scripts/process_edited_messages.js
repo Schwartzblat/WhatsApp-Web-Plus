@@ -1,10 +1,12 @@
-const handleEditedMessage = (message) => false;
+const handle_edited_message = (message) => false;
 
-const initializeEditMessageHook = () => {
+const initialize_edit_message_hook = () => {
     const originalProcessor = window.mR.modules[189865].processEditProtocolMsg;
     window.mR.modules[189865].processEditProtocolMsg = function () {
-        arguments[0] = arguments[0].filter((message) => !handleEditedMessage(message));
-        console.log(message);
+        arguments[0] = arguments[0].filter((message) => {
+            console.log(message);
+            !handle_edited_message(message)
+        });
         return originalProcessor(...arguments);
     };
 };
