@@ -14,7 +14,7 @@ const revoke_handler = (message) => {
     message.type = "chat";
     message.body = "🚫 This message was deleted!";
     message.quotedStanzaID = message.protocolMessageKey.id;
-    message.quotedParticipant = message.protocolMessageKey?.participant;
+    message.quotedParticipant = message.protocolMessageKey?.participant || message.from;
     message.quotedMsg = {
         "type": "chat",
     };
