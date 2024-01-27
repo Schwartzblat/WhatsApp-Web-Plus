@@ -3,5 +3,5 @@ const start = async () => {
     initialize_message_hook();
 };
 
-console.log('Loaded');
+console.log('WhatsApp-Plus loaded successfully!');
 setTimeout(start, 5000);

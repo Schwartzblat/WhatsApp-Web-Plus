@@ -19,5 +19,5 @@
     ],
     "host_permissions" : ["https://web.whatsapp.com/"],
     "manifest_version": 3,
-    "web_accessible_resources": [{"resources": ["scripts/*", "packed.js"], "matches": ["https://web.whatsapp.com/*"]} ]
+    "web_accessible_resources": [{"resources": ["packed.js"], "matches": ["https://web.whatsapp.com/*"]} ]
 }
