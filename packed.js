@@ -5,44 +5,32 @@ const initialize_modules = () => {
         window.webpackChunkwhatsapp_web_client.push([
             ["moduleRaid"],
             {},
-            (e) => {
-                Object.keys(e.m).forEach((mod) => {
-                    mObj[mod] = e(mod);
-                });
-            }
+            (e) => Object.keys(e.m).forEach((mod) => mObj[mod] = e(mod))
         ]);
-        const get = (id) => {
-            return mObj[id];
-        };
+
+        const get = (id) => mObj[id];
+        
         const findModule = (query) => {
             const results = [];
-            const modules = Object.keys(mObj);
-            modules.forEach((mKey) => {
+            Object.keys(mObj).forEach((mKey) => {
                 const mod = mObj[mKey];
-                if (typeof query !== "function" && typeof query !== "string") {
-                    return;
-                }
-                if (typeof query === "function" && query(mod)) {
+                if ((typeof query === "function" && query(mod)) || (typeof query === "string" && mod[query] !== undefined)) {
                     results.push(mod);
-                    return;
-                }
-                for (const key in (mod === null || mod === void 0 ?
-                    void 0 :
-                    mod.default) || mod) {
-                    if (key === query) {
-                        results.push(mod);
-                    }
                 }
             });
             return results;
         };
-        return {
-            modules: mObj,
-            findModule: findModule,
-            get: get
-        };
+
+        return { modules: mObj, findModule, get };
     })();
+    
     console.log('Modules have been loaded successfully!');
+};
+
+
+const WA_MODULES = {
+    PROCESS_EDIT_MESSAGE: 189865,
+    PROCESS_RENDERABLE_MESSAGES: 992321
 };
 
 
@@ -68,38 +56,27 @@ const handle_message = (message) => {
 
 
 const initialize_message_hook = () => {
-    const original_processor = window.mR.modules[992321].processRenderableMessages
-    window.mR.modules[992321].processRenderableMessages = function () {
-        for (const [index, message] of Object.entries(arguments[0])) {
+    const original_processor = window.mR.modules[WA_MODULES.PROCESS_RENDERABLE_MESSAGES].processRenderableMessages;
+    window.mR.modules[WA_MODULES.PROCESS_RENDERABLE_MESSAGES].processRenderableMessages = function () {
+        arguments[0] = arguments[0].filter((message) => {
             console.log(message);
-            const should_ignore = handle_message(message);
-            if (should_ignore) {
-                arguments[0].splice(index, 1);
-            }
-        }
+            return !handle_message(message);
+        });
         return original_processor(...arguments);
     };
 };
 
 
-const handle_edited_message = (message) => {
-    let should_ignore = false;
-    should_ignore |= true;
-    return should_ignore;
-}
-
+const handle_edited_message = (message) => false;
 
 const initialize_edit_message_hook = () => {
-    const original_processor = window.mR.modules[189865].processEditProtocolMsg
-    window.mR.modules[189865].processEditProtocolMsg = function () {
-        for (const [index, message] of Object.entries(arguments[0])) {
+    const originalProcessor = window.mR.modules[WA_MODULES.PROCESS_EDIT_MESSAGE].processEditProtocolMsg;
+    window.mR.modules[WA_MODULES.PROCESS_EDIT_MESSAGE].processEditProtocolMsg = function () {
+        arguments[0] = arguments[0].filter((message) => {
             console.log(message);
-            const should_ignore = handle_edited_message(message);
-            if (should_ignore) {
-                arguments[0].splice(index, 1);
-            }
-        }
-        return original_processor(...arguments);
+            return !handle_edited_message(message);
+        });
+        return originalProcessor(...arguments);
     };
 };
 

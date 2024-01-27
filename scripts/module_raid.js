@@ -4,42 +4,24 @@ const initialize_modules = () => {
         window.webpackChunkwhatsapp_web_client.push([
             ["moduleRaid"],
             {},
-            (e) => {
-                Object.keys(e.m).forEach((mod) => {
-                    mObj[mod] = e(mod);
-                });
-            }
+            (e) => Object.keys(e.m).forEach((mod) => mObj[mod] = e(mod))
         ]);
-        const get = (id) => {
-            return mObj[id];
-        };
+
+        const get = (id) => mObj[id];
+        
         const findModule = (query) => {
             const results = [];
-            const modules = Object.keys(mObj);
-            modules.forEach((mKey) => {
+            Object.keys(mObj).forEach((mKey) => {
                 const mod = mObj[mKey];
-                if (typeof query !== "function" && typeof query !== "string") {
-                    return;
-                }
-                if (typeof query === "function" && query(mod)) {
+                if ((typeof query === "function" && query(mod)) || (typeof query === "string" && mod[query] !== undefined)) {
                     results.push(mod);
-                    return;
-                }
-                for (const key in (mod === null || mod === void 0 ?
-                    void 0 :
-                    mod.default) || mod) {
-                    if (key === query) {
-                        results.push(mod);
-                    }
                 }
             });
             return results;
         };
-        return {
-            modules: mObj,
-            findModule: findModule,
-            get: get
-        };
+
+        return { modules: mObj, findModule, get };
     })();
+    
     console.log('Modules have been loaded successfully!');
 };

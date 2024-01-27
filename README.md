@@ -1,4 +1,9 @@
 # WhatsApp-Web-Plus
 
 
-## Coming soon...
+## Features
+|         Feature         | Availability |
+|:-----------------------:|:------------:|
+| View once media handler |      ✔       |
+|  Keep revoked messages  |      ✔       |
+|  Keep edited messages   |      ✔       |
