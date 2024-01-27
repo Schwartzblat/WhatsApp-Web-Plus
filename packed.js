@@ -30,7 +30,7 @@ const initialize_modules = () => {
 
 const WA_MODULES = {
     PROCESS_EDIT_MESSAGE: 189865,
-    PROCESS_RENDERABLE_MESSAGES: 992321
+    PROCESS_RENDERABLE_MESSAGES: 992321,
 };
 
 
@@ -39,12 +39,25 @@ const view_once_handler = (message) => {
         return false;
     }
     message.isViewOnce = false;
-}
+};
 
-const REVOKE_SUBTYPES = ['sender_revoke', 'admin_revoke']
+
+const REVOKE_SUBTYPES = ['sender_revoke', 'admin_revoke'];
 const revoke_handler = (message) => {
-    return REVOKE_SUBTYPES.includes(message?.subtype);
-}
+    if (!REVOKE_SUBTYPES.includes(message?.subtype)) {
+        return false;
+    }
+    message.type = "chat";
+    message.body = "🚫 This message was deleted!";
+    message.quotedStanzaID = message.protocolMessageKey.id;
+    message.quotedParticipant = message.protocolMessageKey.participant;
+    message.quotedMsg = {
+        "type": "chat",
+    };
+    delete message.protocolMessageKey;
+    delete message.subtype;
+    return false;
+};
 
 
 const handle_message = (message) => {
@@ -52,7 +65,7 @@ const handle_message = (message) => {
     should_ignore |= view_once_handler(message);
     should_ignore |= revoke_handler(message);
     return should_ignore;
-}
+};
 
 
 const initialize_message_hook = () => {
