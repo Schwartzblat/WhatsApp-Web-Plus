@@ -2,8 +2,8 @@
 
 
 ## Features
-|         Feature         | Availability |
-|:-----------------------:|:------------:|
-| View once media handler |      ✔       |
-|  Keep revoked messages  |      ✔       |
-|  Keep edited messages   |      ✔       |
+|         Feature          | Availability |
+|:------------------------:|:------------:|
+| View once media disabler |      ✔       |
+|  Keep revoked messages   |      ✔       |
+|   Keep edited messages   |      ✔       |
