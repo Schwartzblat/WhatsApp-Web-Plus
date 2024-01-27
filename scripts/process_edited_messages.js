@@ -5,7 +5,7 @@ const handle_edited_message = function () {
     message.quotedStanzaID = message.protocolMessageKey.id;
     message.quotedParticipant = message.protocolMessageKey?.participant || message.from;
     message.quotedMsg = {
-        "type": "chat",
+        type: "chat",
     };
     delete message.latestEditMsgKey;
     delete message.protocolMessageKey;
@@ -16,7 +16,7 @@ const handle_edited_message = function () {
         [message],
         arguments[1],
         null,
-        null,
+        {verifiedLevel: "unknown"},
         null,
         0,
         arguments[2]
