@@ -9,6 +9,7 @@ module.exports = function(grunt) {
             dist: {
                 src: [
                     './scripts/module_raid.js',
+                    './scripts/modules.js',
                     './scripts/process_renderable_messages.js',
                     './scripts/process_edited_messages.js',
                     './scripts/router.js',
