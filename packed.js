@@ -42,38 +42,24 @@ const initialize_modules = () => {
             get: get
         };
     })();
-    console.log('Modules have been loaded successfully!');
-};
 
+    console.log('The modules have been loaded successfully!');
 
-const view_once_handler = (message) => {
-    if (!message?.isViewOnce) {
-        return;
-    }
-    message.isViewOnce = false;
-}
+    const viewOnceHandler = (message) => message?.isViewOnce && (message.isViewOnce = false);
 
+    const handleMessage = (message) => viewOnceHandler(message);
 
-const handle_message = (message) => {
-    view_once_handler(message);
-}
-
-
-const initialize_message_hook = () => {
-    const original_processor = window.mR.modules[992321].processRenderableMessages
-    window.mR.modules[992321].processRenderableMessages = function () {
-        for (const message of arguments[0]) {
-            handle_message(message);
-        }
-        return original_processor(...arguments);
+    const initializeMessageHook = () => {
+        const originalProcessor = mR.modules[992321].processRenderableMessages;
+        mR.modules[992321].processRenderableMessages = (...args) => {
+            args[0].forEach((message) => handleMessage(message));
+            return originalProcessor(...args);
+        };
     };
-};
 
-
-const start = async () => {
-    initialize_modules();
-    initialize_message_hook();
-};
+    const start = async () => {
+        initializeMessageHook();
+    };
 
 console.log('WhatsApp-Plus loaded successfully!');
 setTimeout(start, 5000);
