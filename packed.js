@@ -28,6 +28,12 @@ const initialize_modules = () => {
 };
 
 
+const WA_MODULES = {
+    PROCESS_EDIT_MESSAGE: 189865,
+    PROCESS_RENDERABLE_MESSAGES: 992321
+};
+
+
 const view_once_handler = (message) => {
     if (!message?.isViewOnce) {
         return false;
@@ -50,8 +56,8 @@ const handle_message = (message) => {
 
 
 const initialize_message_hook = () => {
-    const original_processor = window.mR.modules[992321].processRenderableMessages
-    window.mR.modules[992321].processRenderableMessages = function () {
+    const original_processor = window.mR.modules[WA_MODULES.PROCESS_RENDERABLE_MESSAGES].processRenderableMessages;
+    window.mR.modules[WA_MODULES.PROCESS_RENDERABLE_MESSAGES].processRenderableMessages = function () {
         arguments[0] = arguments[0].filter((message) => {
             console.log(message);
             return !handle_message(message);
@@ -64,11 +70,11 @@ const initialize_message_hook = () => {
 const handle_edited_message = (message) => false;
 
 const initialize_edit_message_hook = () => {
-    const originalProcessor = window.mR.modules[189865].processEditProtocolMsg;
-    window.mR.modules[189865].processEditProtocolMsg = function () {
+    const originalProcessor = window.mR.modules[WA_MODULES.PROCESS_EDIT_MESSAGE].processEditProtocolMsg;
+    window.mR.modules[WA_MODULES.PROCESS_EDIT_MESSAGE].processEditProtocolMsg = function () {
         arguments[0] = arguments[0].filter((message) => {
             console.log(message);
-            !handle_edited_message(message)
+            return !handle_edited_message(message);
         });
         return originalProcessor(...arguments);
     };
