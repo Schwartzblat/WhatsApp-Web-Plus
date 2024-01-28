@@ -83,7 +83,7 @@ const initialize_message_hook = () => {
 const handle_edited_message = function () {
     const message = arguments[0];
     message.type = "chat";
-    message.body = `✏️ This message was edited to: ${message.body}`;
+    message.body = `✏️ This message was edited to: ${message?.body || message?.caption}`;
     message.quotedStanzaID = message.protocolMessageKey.id;
     message.quotedParticipant = message.protocolMessageKey?.participant || message.from;
     message.quotedMsg = {
