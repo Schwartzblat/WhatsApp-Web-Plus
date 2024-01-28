@@ -31,6 +31,7 @@ const initialize_modules = () => {
 const WA_MODULES = {
     PROCESS_EDIT_MESSAGE: 189865,
     PROCESS_RENDERABLE_MESSAGES: 992321,
+    MESSAGES_RENDERER: 809958,
 };
 
 
@@ -39,6 +40,20 @@ const view_once_handler = (message) => {
         return false;
     }
     message.isViewOnce = false;
+};
+
+const initialize_renderer_hook = () => {
+    const handle_message = (message) => {
+        if (message?.isViewOnce !== true) {
+            return;
+        }
+        message.isViewOnce = false;
+    };
+    const original_function = mR.modules[WA_MODULES.MESSAGES_RENDERER].default;
+    mR.modules[WA_MODULES.MESSAGES_RENDERER].default = function () {
+        handle_message(arguments[0]?.msg);
+        return original_function(...arguments);
+    }
 };
 
 
@@ -60,15 +75,13 @@ const revoke_handler = (message) => {
 };
 
 
-const handle_message = (message) => {
-    let should_ignore = false;
-    should_ignore |= view_once_handler(message);
-    should_ignore |= revoke_handler(message);
-    return should_ignore;
-};
-
-
 const initialize_message_hook = () => {
+    const handle_message = (message) => {
+        let should_ignore = false;
+        should_ignore |= revoke_handler(message);
+        return should_ignore;
+    };
+
     const original_processor = window.mR.modules[WA_MODULES.PROCESS_RENDERABLE_MESSAGES].processRenderableMessages;
     window.mR.modules[WA_MODULES.PROCESS_RENDERABLE_MESSAGES].processRenderableMessages = function () {
         arguments[0] = arguments[0].filter((message) => {
@@ -119,6 +132,7 @@ const initialize_edit_message_hook = () => {
 
 const start = async () => {
     initialize_modules();
+    initialize_renderer_hook();
     initialize_message_hook();
     initialize_edit_message_hook();
 };
