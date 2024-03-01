@@ -23,8 +23,8 @@ const initialize_message_hook = () => {
         return should_ignore;
     };
 
-    const original_processor = window.mR.modules[WA_MODULES.PROCESS_RENDERABLE_MESSAGES].processRenderableMessages;
-    window.mR.modules[WA_MODULES.PROCESS_RENDERABLE_MESSAGES].processRenderableMessages = function () {
+    const original_processor = MODULES.PROCESS_RENDERABLE_MESSAGES.processRenderableMessages;
+    MODULES.PROCESS_RENDERABLE_MESSAGES.processRenderableMessages = function () {
         arguments[0] = arguments[0].filter((message) => {
             console.log(message);
             return !handle_message(message);

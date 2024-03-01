@@ -35,11 +35,12 @@ const initialize_renderer_hook = () => {
     const handle_message = (message) => {
         view_once_handler(message);
     };
-    const original_function = mR.modules[WA_MODULES.MESSAGES_RENDERER].default;
-    mR.modules[WA_MODULES.MESSAGES_RENDERER].default = function () {
+    const original_function = MODULES.MESSAGES_RENDERER.default || MODULES.MESSAGES_RENDERER.Meta;
+    MODULES.MESSAGES_RENDERER.default = function () {
         handle_message(arguments[0]?.msg);
         const ret = original_function(...arguments);
         device_handler(arguments[0]?.msg);
         return ret;
-    }
+    };
+    MODULES.MESSAGES_RENDERER.Meta = MODULES.MESSAGES_RENDERER.default;
 };
