@@ -151,7 +151,7 @@ const handle_edited_message = function () {
     delete message.latestEditSenderTimestampMs;
     MODULES.PROCESS_RENDERABLE_MESSAGES.processRenderableMessages(
         [message],
-        window?.webpackChunkwhatsapp_web_client ? arguments[1] : {
+        window.webpackChunkwhatsapp_web_client?.length > 0 ? arguments[1] : {
             "author": message.from,
             "type": "chat",
             "externalId": message.id.id,
@@ -171,7 +171,7 @@ const handle_edited_message = function () {
 const initialize_edit_message_hook = () => {
     const originalProcessor = MODULES.PROCESS_EDIT_MESSAGE.processEditProtocolMsgs || MODULES.PROCESS_EDIT_MESSAGE.processEditProtocolMsgs;
     MODULES.PROCESS_EDIT_MESSAGE.processEditProtocolMsgs = function () {
-        if (!window.webpackChunkwhatsapp_web_client) {
+        if (!(window.webpackChunkwhatsapp_web_client?.length > 0)) {
             arguments[0] = arguments[0].filter((message) => {
                 console.log(message);
                 return !handle_edited_message(message, ...arguments);
