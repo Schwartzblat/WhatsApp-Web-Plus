@@ -7,7 +7,7 @@ const WA_MODULES = {
 
 const NEW_WA_MODULES = {
     PROCESS_EDIT_MESSAGE: 'WAWebDBProcessEditProtocolMsgs',
-    PROCESS_RENDERABLE_MESSAGES: 'WAWebMessageProcessor',
+    PROCESS_RENDERABLE_MESSAGES: 'WAWebMessageProcessRenderable',
     MESSAGES_RENDERER: 'WAWebMessageMeta.react',
 };
 
