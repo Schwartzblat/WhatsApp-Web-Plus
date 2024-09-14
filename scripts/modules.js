@@ -8,10 +8,12 @@ const NEW_WA_MODULES = {
     PROCESS_EDIT_MESSAGE: 'WAWebDBProcessEditProtocolMsgs',
     PROCESS_RENDERABLE_MESSAGES: 'WAWebMessageProcessRenderable',
     MESSAGES_RENDERER: 'WAWebMessageMeta.react',
+    PROTOBUF_HOOK: 'WAWebVerifyProtobufMsgObjectKeys',
 };
 
 window.MODULES = {
     PROCESS_EDIT_MESSAGE: undefined,
     PROCESS_RENDERABLE_MESSAGES: undefined,
     MESSAGES_RENDERER: undefined,
+    PROTOBUF_HOOK: undefined,
 };
