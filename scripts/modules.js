@@ -9,6 +9,8 @@ const NEW_WA_MODULES = {
     PROCESS_RENDERABLE_MESSAGES: 'WAWebMessageProcessRenderable',
     MESSAGES_RENDERER: 'WAWebMessageMeta.react',
     PROTOBUF_HOOK: 'decodeProtobuf',
+    SEND_MESSAGE: 'WAWebSendMsgRecordAction',
+    QUERY_GROUP: 'WAWebGroupQueryGroupJob',
 };
 
 window.MODULES = {
@@ -16,4 +18,6 @@ window.MODULES = {
     PROCESS_RENDERABLE_MESSAGES: undefined,
     MESSAGES_RENDERER: undefined,
     PROTOBUF_HOOK: undefined,
+    SEND_MESSAGE: undefined,
+    QUERY_GROUP: undefined,
 };

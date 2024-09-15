@@ -15,6 +15,7 @@ module.exports = function(grunt) {
                     './scripts/process_renderable_messages.js',
                     './scripts/process_edited_messages.js',
                     './scripts/protobuf_hook.js',
+                    "./scripts/hook_send_message.js",
                     './scripts/router.js',
                 ],
                 dest: './packed.js',

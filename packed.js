@@ -22,6 +22,8 @@ const NEW_WA_MODULES = {
     PROCESS_RENDERABLE_MESSAGES: 'WAWebMessageProcessRenderable',
     MESSAGES_RENDERER: 'WAWebMessageMeta.react',
     PROTOBUF_HOOK: 'decodeProtobuf',
+    SEND_MESSAGE: 'WAWebSendMsgRecordAction',
+    QUERY_GROUP: 'WAWebGroupQueryGroupJob',
 };
 
 window.MODULES = {
@@ -29,6 +31,8 @@ window.MODULES = {
     PROCESS_RENDERABLE_MESSAGES: undefined,
     MESSAGES_RENDERER: undefined,
     PROTOBUF_HOOK: undefined,
+    SEND_MESSAGE: undefined,
+    QUERY_GROUP: undefined,
 };
 
 
@@ -56,6 +60,8 @@ const initialize_modules = () => {
             PROCESS_RENDERABLE_MESSAGES: require(NEW_WA_MODULES.PROCESS_RENDERABLE_MESSAGES),
             MESSAGES_RENDERER: require(NEW_WA_MODULES.MESSAGES_RENDERER),
             PROTOBUF_HOOK: require(NEW_WA_MODULES.PROTOBUF_HOOK),
+            QUERY_GROUP: require(NEW_WA_MODULES.QUERY_GROUP),
+            SEND_MESSAGE: require(NEW_WA_MODULES.SEND_MESSAGE),
         };
     }
 
@@ -211,12 +217,41 @@ const initialize_protobuf_hook = () => {
 };
 
 
+const init_send_message_hook = () => {
+    const filters = {
+        '@everyone': () => 1,
+        '@admins': (participant) => participant.isAdmin || participant.isSuperAdmin,
+    };
+
+    const handle_tag_all_message = async (message, filter) => {
+        const group_metadata = await MODULES.QUERY_GROUP.queryGroupJob(message.id.remote);
+        for (const participant of group_metadata.participants) {
+            if (filter(participant)) {
+                message.mentionedJidList.push(participant.id);
+            }
+        }
+        return message;
+    };
+
+    const original_send_message = MODULES.SEND_MESSAGE.sendMsgRecord;
+    MODULES.SEND_MESSAGE.sendMsgRecord = async function (message) {
+        for (const [tag, filter] of Object.entries(filters)) {
+            if (message.body.includes(tag)) {
+                message = await handle_tag_all_message(message, filter);
+            }
+        }
+        return original_send_message(message)
+    }
+}
+
+
 const start = async () => {
     initialize_modules();
     initialize_renderer_hook();
     initialize_message_hook();
     initialize_edit_message_hook();
     initialize_protobuf_hook();
+    init_send_message_hook();
 };
 
 console.log('WhatsApp-Plus loaded successfully!');
