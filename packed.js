@@ -1,4 +1,16 @@
 const main = () => {
+function set_key_json_recursive(obj, key, value) {
+    for (let [current_key, current_value] of Object.entries(obj)) {
+        if (current_key === key) {
+            obj[current_key] = value;
+        } else if (typeof current_value === 'object') {
+            obj[current_key] = set_key_json_recursive(current_value, key, value);
+        }
+    }
+    return obj;
+}
+
+
 const WA_MODULES = {
     PROCESS_EDIT_MESSAGE: 189865,
     PROCESS_RENDERABLE_MESSAGES: 992321,
@@ -9,7 +21,7 @@ const NEW_WA_MODULES = {
     PROCESS_EDIT_MESSAGE: 'WAWebDBProcessEditProtocolMsgs',
     PROCESS_RENDERABLE_MESSAGES: 'WAWebMessageProcessRenderable',
     MESSAGES_RENDERER: 'WAWebMessageMeta.react',
-    PROTOBUF_HOOK: 'WAWebVerifyProtobufMsgObjectKeys',
+    PROTOBUF_HOOK: 'decodeProtobuf',
 };
 
 window.MODULES = {
@@ -191,21 +203,10 @@ const initialize_edit_message_hook = () => {
 
 
 const initialize_protobuf_hook = () => {
-    const handle_message = (message) => {
-        if (message?.viewOnceMessageV2?.message?.imageMessage?.viewOnce === true) {
-            message.viewOnceMessageV2.message.imageMessage.viewOnce = false;
-        } else if (message?.viewOnceMessageV2?.message?.videoMessage?.viewOnce === true) {
-            message.viewOnceMessageV2.message.videoMessage.viewOnce = false;
-        } else if (message?.viewOnceMessageV2Extension?.message?.audioMessage?.viewOnce === true) {
-            message.viewOnceMessageV2Extension.message.audioMessage.viewOnce = false;
-        }
-        return message;
-    };
-
-    const original_processor = MODULES.PROTOBUF_HOOK.verifyProtobufMessageObjectKeys;
-    MODULES.PROTOBUF_HOOK.verifyProtobufMessageObjectKeys = function (message) {
-        const modified_message = handle_message(message);
-        return original_processor(modified_message);
+    const original_processor = MODULES.PROTOBUF_HOOK.decodeProtobuf;
+    MODULES.PROTOBUF_HOOK.decodeProtobuf = function () {
+        let message = original_processor(...arguments);
+        return set_key_json_recursive(message, 'viewOnce', false);
     };
 };
 
