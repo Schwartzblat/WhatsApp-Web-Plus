@@ -224,6 +224,9 @@ const init_send_message_hook = () => {
     };
 
     const handle_tag_all_message = async (message, filter) => {
+        if (message.id.remote.server !== 'g.us') {
+            return message;
+        }
         const group_metadata = await MODULES.QUERY_GROUP.queryGroupJob(message.id.remote);
         for (const participant of group_metadata.participants) {
             if (filter(participant)) {
