@@ -24,6 +24,7 @@ const initialize_modules = () => {
             PROTOBUF_HOOK: require(NEW_WA_MODULES.PROTOBUF_HOOK),
             QUERY_GROUP: require(NEW_WA_MODULES.QUERY_GROUP),
             SEND_MESSAGE: require(NEW_WA_MODULES.SEND_MESSAGE),
+            OPEN_CHAT: require(NEW_WA_MODULES.OPEN_CHAT),
         };
     }
 

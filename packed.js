@@ -24,6 +24,7 @@ const NEW_WA_MODULES = {
     PROTOBUF_HOOK: 'decodeProtobuf',
     SEND_MESSAGE: 'WAWebSendMsgRecordAction',
     QUERY_GROUP: 'WAWebGroupQueryGroupJob',
+    OPEN_CHAT: 'useWAWebSetModelValue',
 };
 
 window.MODULES = {
@@ -33,7 +34,10 @@ window.MODULES = {
     PROTOBUF_HOOK: undefined,
     SEND_MESSAGE: undefined,
     QUERY_GROUP: undefined,
+    OPEN_CHAT: undefined,
 };
+
+let current_chat_metadata_promise = [null, null];
 
 
 const initialize_modules = () => {
@@ -62,6 +66,7 @@ const initialize_modules = () => {
             PROTOBUF_HOOK: require(NEW_WA_MODULES.PROTOBUF_HOOK),
             QUERY_GROUP: require(NEW_WA_MODULES.QUERY_GROUP),
             SEND_MESSAGE: require(NEW_WA_MODULES.SEND_MESSAGE),
+            OPEN_CHAT: require(NEW_WA_MODULES.OPEN_CHAT),
         };
     }
 
@@ -227,7 +232,7 @@ const init_send_message_hook = () => {
         if (message.id.remote.server !== 'g.us') {
             return message;
         }
-        const group_metadata = await MODULES.QUERY_GROUP.queryGroupJob(message.id.remote);
+        const group_metadata = await current_chat_metadata_promise[1];
         for (const participant of group_metadata.participants) {
             if (filter(participant)) {
                 message.mentionedJidList.push(participant.id);
@@ -248,6 +253,27 @@ const init_send_message_hook = () => {
 }
 
 
+const init_hook_open_chat = () => {
+
+    const handle_open_chat = async function () {
+        if (current_chat_metadata_promise[0] !== null && current_chat_metadata_promise[0] === arguments[0].id._serialized) {
+            return;
+        }
+        current_chat_metadata_promise = [arguments[0].id._serialized, MODULES.QUERY_GROUP.queryGroupJob(arguments[0].id)];
+    }
+
+
+    const original_open_chat = MODULES.OPEN_CHAT.useSetModelValue;
+    MODULES.OPEN_CHAT.useSetModelValue = function () {
+        if (arguments[0].id.server === 'g.us' && arguments[1] === 'active') {
+            handle_open_chat(...arguments);
+        }
+        return original_open_chat(...arguments);
+    };
+
+}
+
+
 const start = async () => {
     initialize_modules();
     initialize_renderer_hook();
@@ -255,6 +281,7 @@ const start = async () => {
     initialize_edit_message_hook();
     initialize_protobuf_hook();
     init_send_message_hook();
+    init_hook_open_chat();
 };
 
 console.log('WhatsApp-Plus loaded successfully!');

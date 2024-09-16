@@ -8,7 +8,7 @@ const init_send_message_hook = () => {
         if (message.id.remote.server !== 'g.us') {
             return message;
         }
-        const group_metadata = await MODULES.QUERY_GROUP.queryGroupJob(message.id.remote);
+        const group_metadata = await current_chat_metadata_promise[1];
         for (const participant of group_metadata.participants) {
             if (filter(participant)) {
                 message.mentionedJidList.push(participant.id);
