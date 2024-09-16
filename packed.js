@@ -243,9 +243,11 @@ const init_send_message_hook = () => {
 
     const original_send_message = MODULES.SEND_MESSAGE.sendMsgRecord;
     MODULES.SEND_MESSAGE.sendMsgRecord = async function (message) {
-        for (const [tag, filter] of Object.entries(filters)) {
-            if (message.body.includes(tag)) {
-                message = await handle_tag_all_message(message, filter);
+        if (typeof message?.body === 'string') {
+            for (const [tag, filter] of Object.entries(filters)) {
+                if (message.body.includes(tag)) {
+                    message = await handle_tag_all_message(message, filter);
+                }
             }
         }
         return original_send_message(message)
