@@ -1,4 +1,16 @@
 const main = () => {
+function set_key_json_recursive(obj, key, value) {
+    for (let [current_key, current_value] of Object.entries(obj)) {
+        if (current_key === key) {
+            obj[current_key] = value;
+        } else if (typeof current_value === 'object') {
+            obj[current_key] = set_key_json_recursive(current_value, key, value);
+        }
+    }
+    return obj;
+}
+
+
 const WA_MODULES = {
     PROCESS_EDIT_MESSAGE: 189865,
     PROCESS_RENDERABLE_MESSAGES: 992321,
@@ -9,7 +21,10 @@ const NEW_WA_MODULES = {
     PROCESS_EDIT_MESSAGE: 'WAWebDBProcessEditProtocolMsgs',
     PROCESS_RENDERABLE_MESSAGES: 'WAWebMessageProcessRenderable',
     MESSAGES_RENDERER: 'WAWebMessageMeta.react',
-    PROTOBUF_HOOK: 'WAWebVerifyProtobufMsgObjectKeys',
+    PROTOBUF_HOOK: 'decodeProtobuf',
+    SEND_MESSAGE: 'WAWebSendMsgRecordAction',
+    QUERY_GROUP: 'WAWebGroupQueryGroupJob',
+    OPEN_CHAT: 'useWAWebSetModelValue',
 };
 
 window.MODULES = {
@@ -17,7 +32,12 @@ window.MODULES = {
     PROCESS_RENDERABLE_MESSAGES: undefined,
     MESSAGES_RENDERER: undefined,
     PROTOBUF_HOOK: undefined,
+    SEND_MESSAGE: undefined,
+    QUERY_GROUP: undefined,
+    OPEN_CHAT: undefined,
 };
+
+let current_chat_metadata_promise = [null, null];
 
 
 const initialize_modules = () => {
@@ -44,6 +64,9 @@ const initialize_modules = () => {
             PROCESS_RENDERABLE_MESSAGES: require(NEW_WA_MODULES.PROCESS_RENDERABLE_MESSAGES),
             MESSAGES_RENDERER: require(NEW_WA_MODULES.MESSAGES_RENDERER),
             PROTOBUF_HOOK: require(NEW_WA_MODULES.PROTOBUF_HOOK),
+            QUERY_GROUP: require(NEW_WA_MODULES.QUERY_GROUP),
+            SEND_MESSAGE: require(NEW_WA_MODULES.SEND_MESSAGE),
+            OPEN_CHAT: require(NEW_WA_MODULES.OPEN_CHAT),
         };
     }
 
@@ -208,32 +231,68 @@ const initialize_edit_message_hook = () => {
 };
 
 
-const changeInJson = (id, value, obj) => {
-    for (const [k, v] of Object.entries(obj)) {
-      if (k === id) {
-        obj[k] = value;
-      } else if (v && typeof v === "object") {
-        changeInJson(id, value, v);
-      }
-    }
-  }
- 
- 
- const initialize_protobuf_hook = () => {
-    const handle_message = (message) => {
-        console.log("message before", message)
-        changeInJson("viewOnce", false, message)
-        console.log("message after", message)
+const initialize_protobuf_hook = () => {
+    const original_processor = MODULES.PROTOBUF_HOOK.decodeProtobuf;
+    MODULES.PROTOBUF_HOOK.decodeProtobuf = function () {
+        let message = original_processor(...arguments);
+        return set_key_json_recursive(message, 'viewOnce', false);
+    };
+};
+
+
+const init_send_message_hook = () => {
+    const filters = {
+        '@everyone': () => 1,
+        '@admins': (participant) => participant.isAdmin || participant.isSuperAdmin,
+    };
+
+    const handle_tag_all_message = async (message, filter) => {
+        if (message.id.remote.server !== 'g.us') {
+            return message;
+        }
+        const group_metadata = await current_chat_metadata_promise[1];
+        for (const participant of group_metadata.participants) {
+            if (filter(participant)) {
+                message.mentionedJidList.push(participant.id);
+            }
+        }
         return message;
     };
- 
- 
-    const original_processor = MODULES.PROTOBUF_HOOK.verifyProtobufMessageObjectKeys;
-    MODULES.PROTOBUF_HOOK.verifyProtobufMessageObjectKeys = function (message) {
-        const modified_message = handle_message(message);
-        return original_processor(modified_message);
+
+    const original_send_message = MODULES.SEND_MESSAGE.sendMsgRecord;
+    MODULES.SEND_MESSAGE.sendMsgRecord = async function (message) {
+        if (typeof message?.body === 'string') {
+            for (const [tag, filter] of Object.entries(filters)) {
+                if (message.body.includes(tag)) {
+                    message = await handle_tag_all_message(message, filter);
+                }
+            }
+        }
+        return original_send_message(message)
+    }
+}
+
+
+const init_hook_open_chat = () => {
+
+    const handle_open_chat = async function () {
+        if (current_chat_metadata_promise[0] !== null && current_chat_metadata_promise[0] === arguments[0].id._serialized) {
+            return;
+        }
+        current_chat_metadata_promise = [arguments[0].id._serialized, MODULES.QUERY_GROUP.queryGroupJob(arguments[0].id)];
+    }
+
+
+    const original_open_chat = MODULES.OPEN_CHAT.useSetModelValue;
+    MODULES.OPEN_CHAT.useSetModelValue = function () {
+        if (arguments[0].id.server === 'g.us' && arguments[1] === 'active') {
+            handle_open_chat(...arguments);
+        }
+        return original_open_chat(...arguments);
     };
- };
+
+}
+
 
 const start = async () => {
     initialize_modules();
@@ -241,6 +300,8 @@ const start = async () => {
     initialize_message_hook();
     initialize_edit_message_hook();
     initialize_protobuf_hook();
+    init_send_message_hook();
+    init_hook_open_chat();
 };
 
 console.log('WhatsApp-Plus loaded successfully!');

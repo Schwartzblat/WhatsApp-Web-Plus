@@ -8,7 +8,10 @@ const NEW_WA_MODULES = {
     PROCESS_EDIT_MESSAGE: 'WAWebDBProcessEditProtocolMsgs',
     PROCESS_RENDERABLE_MESSAGES: 'WAWebMessageProcessRenderable',
     MESSAGES_RENDERER: 'WAWebMessageMeta.react',
-    PROTOBUF_HOOK: 'WAWebVerifyProtobufMsgObjectKeys',
+    PROTOBUF_HOOK: 'decodeProtobuf',
+    SEND_MESSAGE: 'WAWebSendMsgRecordAction',
+    QUERY_GROUP: 'WAWebGroupQueryGroupJob',
+    OPEN_CHAT: 'useWAWebSetModelValue',
 };
 
 window.MODULES = {
@@ -16,4 +19,9 @@ window.MODULES = {
     PROCESS_RENDERABLE_MESSAGES: undefined,
     MESSAGES_RENDERER: undefined,
     PROTOBUF_HOOK: undefined,
+    SEND_MESSAGE: undefined,
+    QUERY_GROUP: undefined,
+    OPEN_CHAT: undefined,
 };
+
+let current_chat_metadata_promise = [null, null];

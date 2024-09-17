@@ -8,6 +8,7 @@
 |  Keep revoked messages   |      ✔       |
 |   Keep edited messages   |      ✔       |
 |    Indicate sender OS    |      ✔       |
+|    @everyone, @admins    |      ✔       |
 
 
 ## Installing from GitHub

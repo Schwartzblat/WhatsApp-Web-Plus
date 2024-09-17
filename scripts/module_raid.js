@@ -22,6 +22,9 @@ const initialize_modules = () => {
             PROCESS_RENDERABLE_MESSAGES: require(NEW_WA_MODULES.PROCESS_RENDERABLE_MESSAGES),
             MESSAGES_RENDERER: require(NEW_WA_MODULES.MESSAGES_RENDERER),
             PROTOBUF_HOOK: require(NEW_WA_MODULES.PROTOBUF_HOOK),
+            QUERY_GROUP: require(NEW_WA_MODULES.QUERY_GROUP),
+            SEND_MESSAGE: require(NEW_WA_MODULES.SEND_MESSAGE),
+            OPEN_CHAT: require(NEW_WA_MODULES.OPEN_CHAT),
         };
     }
 
