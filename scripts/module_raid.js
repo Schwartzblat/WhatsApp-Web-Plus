@@ -25,6 +25,9 @@ const initialize_modules = () => {
             QUERY_GROUP: require(NEW_WA_MODULES.QUERY_GROUP),
             SEND_MESSAGE: require(NEW_WA_MODULES.SEND_MESSAGE),
             OPEN_CHAT: require(NEW_WA_MODULES.OPEN_CHAT),
+            HANDLE_RECEIPT: require(NEW_WA_MODULES.HANDLE_RECEIPT),
+            RECEIPT_BATCHER: require(NEW_WA_MODULES.RECEIPT_BATCHER),
+            WEB_ACK: require(NEW_WA_MODULES.WEB_ACK),
         };
     }
 

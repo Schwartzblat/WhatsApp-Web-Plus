@@ -2,13 +2,14 @@
 
 
 ## Features
-|         Feature          | Availability |
-|:------------------------:|:------------:|
-| View once media disabler |      ✔       |
-|  Keep revoked messages   |      ✔       |
-|   Keep edited messages   |      ✔       |
-|    Indicate sender OS    |      ✔       |
-|    @everyone, @admins    |      ✔       |
+|               Feature               | Availability |
+|:-----------------------------------:|:------------:|
+|      View once media disabler       |      ✔       |
+|        Keep revoked messages        |      ✔       |
+|        Keep edited messages         |      ✔       |
+|         Indicate sender OS          |      ✔       |
+|         @everyone, @admins          |      ✔       |
+| See blue ticks without sending them |      ✔       |
 
 
 ## Installing from GitHub

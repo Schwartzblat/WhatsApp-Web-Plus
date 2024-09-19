@@ -12,6 +12,9 @@ const NEW_WA_MODULES = {
     SEND_MESSAGE: 'WAWebSendMsgRecordAction',
     QUERY_GROUP: 'WAWebGroupQueryGroupJob',
     OPEN_CHAT: 'useWAWebSetModelValue',
+    HANDLE_RECEIPT: 'WAWebHandleDirectChatReceipt',
+    RECEIPT_BATCHER: 'WAWebMessageReceiptBatcher',
+    WEB_ACK: 'WAWebAck',
 };
 
 window.MODULES = {
@@ -22,6 +25,9 @@ window.MODULES = {
     SEND_MESSAGE: undefined,
     QUERY_GROUP: undefined,
     OPEN_CHAT: undefined,
+    HANDLE_RECEIPT: undefined,
+    RECEIPT_BATCHER: undefined,
+    WEB_ACK: undefined,
 };
 
 let current_chat_metadata_promise = [null, null];

@@ -25,6 +25,9 @@ const NEW_WA_MODULES = {
     SEND_MESSAGE: 'WAWebSendMsgRecordAction',
     QUERY_GROUP: 'WAWebGroupQueryGroupJob',
     OPEN_CHAT: 'useWAWebSetModelValue',
+    HANDLE_RECEIPT: 'WAWebHandleDirectChatReceipt',
+    RECEIPT_BATCHER: 'WAWebMessageReceiptBatcher',
+    WEB_ACK: 'WAWebAck',
 };
 
 window.MODULES = {
@@ -35,6 +38,9 @@ window.MODULES = {
     SEND_MESSAGE: undefined,
     QUERY_GROUP: undefined,
     OPEN_CHAT: undefined,
+    HANDLE_RECEIPT: undefined,
+    RECEIPT_BATCHER: undefined,
+    WEB_ACK: undefined,
 };
 
 let current_chat_metadata_promise = [null, null];
@@ -67,6 +73,9 @@ const initialize_modules = () => {
             QUERY_GROUP: require(NEW_WA_MODULES.QUERY_GROUP),
             SEND_MESSAGE: require(NEW_WA_MODULES.SEND_MESSAGE),
             OPEN_CHAT: require(NEW_WA_MODULES.OPEN_CHAT),
+            HANDLE_RECEIPT: require(NEW_WA_MODULES.HANDLE_RECEIPT),
+            RECEIPT_BATCHER: require(NEW_WA_MODULES.RECEIPT_BATCHER),
+            WEB_ACK: require(NEW_WA_MODULES.WEB_ACK),
         };
     }
 
@@ -276,6 +285,27 @@ const init_hook_open_chat = () => {
 }
 
 
+const initialize_receipts_hook = () => {
+    const original_processor = MODULES.HANDLE_RECEIPT.handleChatSimpleReceipt;
+    MODULES.HANDLE_RECEIPT.handleChatSimpleReceipt = function (receipt) {
+        if (receipt?.from?.server === 'c.us' && receipt?.ack === MODULES.WEB_ACK.ACK.READ) {
+            const msg_keys = [];
+            for (const msg of receipt.externalIds) {
+                msg_keys.push(`true_${receipt.from._serialized}_${msg}`);
+            }
+            MODULES.RECEIPT_BATCHER.receiptBatcher.acceptOtherReceipt({
+                ack: MODULES.WEB_ACK.ACK.READ,
+                ts: receipt.ts,
+                receiverId: receipt.from,
+                msgKeys: msg_keys,
+                isSender: false
+            })
+        }
+        return original_processor(...arguments);
+    };
+};
+
+
 const start = async () => {
     initialize_modules();
     initialize_renderer_hook();
@@ -284,6 +314,7 @@ const start = async () => {
     initialize_protobuf_hook();
     init_send_message_hook();
     init_hook_open_chat();
+    initialize_receipts_hook();
 };
 
 console.log('WhatsApp-Plus loaded successfully!');

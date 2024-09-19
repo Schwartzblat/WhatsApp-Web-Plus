@@ -6,6 +6,7 @@ const start = async () => {
     initialize_protobuf_hook();
     init_send_message_hook();
     init_hook_open_chat();
+    initialize_receipts_hook();
 };
 
 console.log('WhatsApp-Plus loaded successfully!');
