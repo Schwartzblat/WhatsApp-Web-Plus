@@ -10,7 +10,7 @@ const init_hook_open_chat = () => {
 
     const original_open_chat = MODULES.OPEN_CHAT.useSetModelValue;
     MODULES.OPEN_CHAT.useSetModelValue = function () {
-        if (arguments[0].id.server === 'g.us' && arguments[1] === 'active') {
+        if (arguments[1] === 'active' && arguments[0].id.server === 'g.us') {
             handle_open_chat(...arguments);
         }
         return original_open_chat(...arguments);
