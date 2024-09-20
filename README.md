@@ -10,6 +10,7 @@
 |         Indicate sender OS          |      ✔       |
 |         @everyone, @admins          |      ✔       |
 | See blue ticks without sending them |      ✔       |
+|             Fullscreen              |      ✔       |
 
 
 ## Installing from GitHub
