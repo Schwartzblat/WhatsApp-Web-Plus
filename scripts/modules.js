@@ -10,11 +10,12 @@ const NEW_WA_MODULES = {
     MESSAGES_RENDERER: 'WAWebMessageMeta.react',
     PROTOBUF_HOOK: 'decodeProtobuf',
     SEND_MESSAGE: 'WAWebSendMsgRecordAction',
-    QUERY_GROUP: 'WAWebGroupQueryGroupJob',
+    QUERY_GROUP: 'WAWebGroupMsgSendUtils',
     OPEN_CHAT: 'useWAWebSetModelValue',
     HANDLE_RECEIPT: 'WAWebHandleDirectChatReceipt',
     RECEIPT_BATCHER: 'WAWebMessageReceiptBatcher',
     WEB_ACK: 'WAWebAck',
+    WID_FACTORY: 'WAWebWidFactory',
 };
 
 window.MODULES = {
@@ -28,6 +29,5 @@ window.MODULES = {
     HANDLE_RECEIPT: undefined,
     RECEIPT_BATCHER: undefined,
     WEB_ACK: undefined,
+    WID_FACTORY: undefined,
 };
-
-let current_chat_metadata_promise = [null, null];

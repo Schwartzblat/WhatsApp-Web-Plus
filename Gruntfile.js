@@ -16,7 +16,6 @@ module.exports = function(grunt) {
                     './scripts/process_edited_messages.js',
                     './scripts/protobuf_hook.js',
                     "./scripts/hook_send_message.js",
-                    "./scripts/hook_open_chat.js",
                     "./scripts/hook_receipts.js",
                     './scripts/router.js',
                 ],

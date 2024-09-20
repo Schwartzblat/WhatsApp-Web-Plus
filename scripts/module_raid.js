@@ -28,6 +28,7 @@ const initialize_modules = () => {
             HANDLE_RECEIPT: require(NEW_WA_MODULES.HANDLE_RECEIPT),
             RECEIPT_BATCHER: require(NEW_WA_MODULES.RECEIPT_BATCHER),
             WEB_ACK: require(NEW_WA_MODULES.WEB_ACK),
+            WID_FACTORY: require(NEW_WA_MODULES.WID_FACTORY),
         };
     }
 

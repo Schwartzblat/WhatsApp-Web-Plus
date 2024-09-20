@@ -23,11 +23,12 @@ const NEW_WA_MODULES = {
     MESSAGES_RENDERER: 'WAWebMessageMeta.react',
     PROTOBUF_HOOK: 'decodeProtobuf',
     SEND_MESSAGE: 'WAWebSendMsgRecordAction',
-    QUERY_GROUP: 'WAWebGroupQueryGroupJob',
+    QUERY_GROUP: 'WAWebGroupMsgSendUtils',
     OPEN_CHAT: 'useWAWebSetModelValue',
     HANDLE_RECEIPT: 'WAWebHandleDirectChatReceipt',
     RECEIPT_BATCHER: 'WAWebMessageReceiptBatcher',
     WEB_ACK: 'WAWebAck',
+    WID_FACTORY: 'WAWebWidFactory',
 };
 
 window.MODULES = {
@@ -41,9 +42,8 @@ window.MODULES = {
     HANDLE_RECEIPT: undefined,
     RECEIPT_BATCHER: undefined,
     WEB_ACK: undefined,
+    WID_FACTORY: undefined,
 };
-
-let current_chat_metadata_promise = [null, null];
 
 
 const initialize_modules = () => {
@@ -76,6 +76,7 @@ const initialize_modules = () => {
             HANDLE_RECEIPT: require(NEW_WA_MODULES.HANDLE_RECEIPT),
             RECEIPT_BATCHER: require(NEW_WA_MODULES.RECEIPT_BATCHER),
             WEB_ACK: require(NEW_WA_MODULES.WEB_ACK),
+            WID_FACTORY: require(NEW_WA_MODULES.WID_FACTORY),
         };
     }
 
@@ -233,19 +234,17 @@ const initialize_protobuf_hook = () => {
 
 const init_send_message_hook = () => {
     const filters = {
-        '@everyone': () => 1,
-        '@admins': (participant) => participant.isAdmin || participant.isSuperAdmin,
+        '@everyone': 'participants',
+        '@admins': 'admins',
     };
 
     const handle_tag_all_message = async (message, filter) => {
         if (message.id.remote.server !== 'g.us') {
             return message;
         }
-        const group_metadata = await current_chat_metadata_promise[1];
-        for (const participant of group_metadata.participants) {
-            if (filter(participant)) {
-                message.mentionedJidList.push(participant.id);
-            }
+        const group_metadata = await MODULES.QUERY_GROUP.getParticipantRecord(message.id.remote.toString());
+        for (const participant of group_metadata[filter]) {
+            message.mentionedJidList.push(MODULES.WID_FACTORY.createWid(participant));
         }
         return message;
     };
@@ -261,27 +260,6 @@ const init_send_message_hook = () => {
         }
         return original_send_message(message)
     }
-}
-
-
-const init_hook_open_chat = () => {
-
-    const handle_open_chat = async function () {
-        if (current_chat_metadata_promise[0] !== null && current_chat_metadata_promise[0] === arguments[0].id._serialized) {
-            return;
-        }
-        current_chat_metadata_promise = [arguments[0].id._serialized, MODULES.QUERY_GROUP.queryGroupJob(arguments[0].id)];
-    }
-
-
-    const original_open_chat = MODULES.OPEN_CHAT.useSetModelValue;
-    MODULES.OPEN_CHAT.useSetModelValue = function () {
-        if (arguments[1] === 'active' && arguments[0].id.server === 'g.us') {
-            handle_open_chat(...arguments);
-        }
-        return original_open_chat(...arguments);
-    };
-
 }
 
 
@@ -313,7 +291,6 @@ const start = async () => {
     initialize_edit_message_hook();
     initialize_protobuf_hook();
     init_send_message_hook();
-    init_hook_open_chat();
     initialize_receipts_hook();
 };
 

@@ -1,18 +1,16 @@
 const init_send_message_hook = () => {
     const filters = {
-        '@everyone': () => 1,
-        '@admins': (participant) => participant.isAdmin || participant.isSuperAdmin,
+        '@everyone': 'participants',
+        '@admins': 'admins',
     };
 
     const handle_tag_all_message = async (message, filter) => {
         if (message.id.remote.server !== 'g.us') {
             return message;
         }
-        const group_metadata = await current_chat_metadata_promise[1];
-        for (const participant of group_metadata.participants) {
-            if (filter(participant)) {
-                message.mentionedJidList.push(participant.id);
-            }
+        const group_metadata = await MODULES.QUERY_GROUP.getParticipantRecord(message.id.remote.toString());
+        for (const participant of group_metadata[filter]) {
+            message.mentionedJidList.push(MODULES.WID_FACTORY.createWid(participant));
         }
         return message;
     };
