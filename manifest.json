@@ -1,13 +1,8 @@
 {
     "name": "WhatsApp-Web-Plus",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "description": "",
-    "permissions": [
-        "storage",
-        "activeTab",
-        "webNavigation",
-        "tabs"
-    ],
+    "permissions": [],
     "content_scripts": [
         {
             "matches": ["https://web.whatsapp.com/*"],
