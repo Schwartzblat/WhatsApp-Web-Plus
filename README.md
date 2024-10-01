@@ -11,6 +11,8 @@
 |              @everyone, @admins               |      ✔       |
 |      See blue ticks without sending them      |      ✔       |
 | Forward message to unlimited number of groups |      ✔       |
+|                  Fullscreen                   |      ✔       |
+
 
 ## Installing from GitHub
 
