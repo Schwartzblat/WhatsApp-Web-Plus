@@ -11,6 +11,7 @@ module.exports = function(grunt) {
                     './scripts/utils.js',
                     './scripts/modules.js',
                     './scripts/module_raid.js',
+                    './scripts/settings.js',
                     './scripts/hook_renderer_function.js',
                     './scripts/process_renderable_messages.js',
                     './scripts/process_edited_messages.js',

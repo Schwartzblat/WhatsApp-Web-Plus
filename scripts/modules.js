@@ -16,6 +16,7 @@ const NEW_WA_MODULES = {
     RECEIPT_BATCHER: 'WAWebMessageReceiptBatcher',
     WEB_ACK: 'WAWebAck',
     WID_FACTORY: 'WAWebWidFactory',
+    SERVER_PROPS: 'WAWebServerPropConstants',
 };
 
 window.MODULES = {
@@ -30,4 +31,5 @@ window.MODULES = {
     RECEIPT_BATCHER: undefined,
     WEB_ACK: undefined,
     WID_FACTORY: undefined,
+    SERVER_PROPS: undefined,
 };
