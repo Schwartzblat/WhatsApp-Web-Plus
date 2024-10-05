@@ -1,18 +1,37 @@
 {
-    "name": "WhatsApp-Web-Plus",
-    "version": "1.0.9",
-    "description": "",
-    "permissions": [],
-    "content_scripts": [
-        {
-            "matches": ["https://web.whatsapp.com/*"],
-            "js": [
-                "./index.js"
-            ],
-            "run_at": "document_end"
-        }
-    ],
-    "host_permissions" : ["https://web.whatsapp.com/"],
-    "manifest_version": 3,
-    "web_accessible_resources": [{"resources": ["packed.js"], "matches": ["https://web.whatsapp.com/*"]} ]
+  "name": "WhatsApp-Web-Plus",
+  "version": "1.0.9",
+  "description": "",
+  "permissions": [
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ],
+      "js": [
+        "./ExtPay.js",
+        "./index.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "host_permissions": [
+    "https://web.whatsapp.com/"
+  ],
+  "manifest_version": 3,
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "packed.js"
+      ],
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ]
+    }
+  ]
 }
