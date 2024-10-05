@@ -1,4 +1,4 @@
-const main = () => {
+window.plus_main = () => {
 function set_key_json_recursive(obj, key, value) {
     for (let [current_key, current_value] of Object.entries(obj)) {
         if (current_key === key) {
@@ -307,4 +307,7 @@ console.log('WhatsApp-Plus loaded successfully!');
 setTimeout(start, 5000);
 
 };
-main();
+if (!window.is_plus_loaded) {
+	window.is_plus_loaded = true;
+	window.plus_main()
+}
