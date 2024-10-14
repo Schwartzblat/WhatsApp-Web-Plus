@@ -1,10 +1,42 @@
-const init_send_message_hook = () => {
-    const filters = {
-        '@everyone': 'participants',
-        '@admins': 'admins',
-    };
+class HookSendMessage extends Hook {
+    constructor() {
+        super();
+        this.original_function = null;
+    }
 
-    const handle_tag_all_message = async (message, filter) => {
+    register() {
+        if (this.is_registered) {
+            return;
+        }
+        super.register();
+        const filters = {
+            '@everyone': 'participants',
+            '@admins': 'admins',
+        };
+
+        this.original_function = MODULES.SEND_MESSAGE.sendMsgRecord;
+        const original_function = this.original_function;
+        MODULES.SEND_MESSAGE.sendMsgRecord = async function (message) {
+            if (typeof message?.body === 'string') {
+                for (const [tag, filter] of Object.entries(filters)) {
+                    if (message.body.includes(tag)) {
+                        message = await HookSendMessage.handle_tag_all_message(message, filter);
+                    }
+                }
+            }
+            return original_function(message)
+        }
+    }
+
+    unregister() {
+        if (!this.is_registered) {
+            return;
+        }
+        super.unregister();
+        MODULES.SEND_MESSAGE.sendMsgRecord = this.original_function;
+    }
+
+    static async handle_tag_all_message (message, filter) {
         if (message.id.remote.server !== 'g.us') {
             return message;
         }
@@ -14,16 +46,4 @@ const init_send_message_hook = () => {
         }
         return message;
     };
-
-    const original_send_message = MODULES.SEND_MESSAGE.sendMsgRecord;
-    MODULES.SEND_MESSAGE.sendMsgRecord = async function (message) {
-        if (typeof message?.body === 'string') {
-            for (const [tag, filter] of Object.entries(filters)) {
-                if (message.body.includes(tag)) {
-                    message = await handle_tag_all_message(message, filter);
-                }
-            }
-        }
-        return original_send_message(message)
-    }
 }

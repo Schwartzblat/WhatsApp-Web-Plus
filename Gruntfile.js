@@ -8,6 +8,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 src: [
+                    './scripts/hook.js',
                     './scripts/utils.js',
                     './scripts/modules.js',
                     './scripts/module_raid.js',
