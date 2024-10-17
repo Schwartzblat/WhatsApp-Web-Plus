@@ -1,6 +1,3 @@
-const extpay = ExtPay('whatsapp-web-plus');
-
-
 function inject_script(scriptName) {
     return new Promise(function () {
         const s = document.createElement('script');
@@ -13,15 +10,8 @@ function handle_settings_update(settings) {
     window.postMessage({'settings': settings});
 }
 
-extpay.getUser().then(user => {
-    if (user.paid) {
-        console.log('User paid!');
-        inject_script('packed.js');
-    } else {
-        extpay.openPaymentPage()
-        console.log('Paged opened!');
-    }
-});
+
+inject_script('packed.js');
 
 
 chrome.storage.sync.onChanged.addListener(function (changes, namespace) {

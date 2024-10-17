@@ -1,5 +1,3 @@
-const extpay = ExtPay('whatsapp-web-plus');
-
 const STORAGE_KEYS = {
     'extension_user': 'extensionpay_user'
 }
@@ -48,27 +46,6 @@ const add_setting_toggle = (setting_key, title) => {
     return item;
 };
 
-
-const activate_button = document.getElementById('paymentButton')
-activate_button.addEventListener('click', extpay.openPaymentPage);
-
-chrome.storage.sync.get(STORAGE_KEYS.extension_user).then(user => {
-    if (user.extensionpay_user.subscriptionStatus === 'active') {
-        activate_button.innerText = 'Activated! 🎉';
-    } else {
-        activate_button.innerText = 'Activate';
-    }
-});
-
-extpay.getUser().then(user => {
-    if (user.paid) {
-        activate_button.innerText = 'Activated! 🎉';
-    } else {
-        activate_button.innerText = 'Activate';
-    }
-}).catch(err => {
-    console.log(err);
-})
 
 const settings_section = document.getElementById('settings_section');
 

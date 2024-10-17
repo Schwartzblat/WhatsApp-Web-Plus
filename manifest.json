@@ -14,7 +14,6 @@
         "https://web.whatsapp.com/*"
       ],
       "js": [
-        "./ExtPay.js",
         "./index.js"
       ],
       "run_at": "document_end"
