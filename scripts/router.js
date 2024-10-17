@@ -1,14 +1,42 @@
+const hooks = {
+    view_once_media: new ProtobufHook(),
+    keep_revoked_messages: new RenderableMessageHook(),
+    keep_edited_messages: new EditMessageHook(),
+    indicate_sender_os: new HookRendered(),
+    special_tags: new HookSendMessage(),
+    blue_ticks: new HookReceipts(),
+    settings_hook: new SettingsHook()
+};
+
+function handle_settings_update() {
+    for (const [setting_name, hook] of Object.entries(hooks)) {
+        if (active_settings[setting_name] === false) {
+            hook.unregister();
+        } else {
+            hook.register();
+        }
+    }
+}
+
+
+let active_settings = {};
+
 const start = async () => {
     initialize_modules();
-    init_special_settings();
-    initialize_renderer_hook();
-    initialize_message_hook();
-    initialize_edit_message_hook();
-    initialize_protobuf_hook();
-    init_send_message_hook();
-    initialize_receipts_hook();
-    initialize_fullscreen();
+    for (const [setting_name, hook] of Object.entries(hooks)) {
+        if (active_settings[setting_name] !== false) {
+            hook.register();
+        }
+    }
 };
+
+window.addEventListener("message", function (event) {
+    const message = event.data;
+    if (message.settings !== undefined) {
+        active_settings = message.settings;
+        handle_settings_update();
+    }
+});
 
 console.log('WhatsApp-Plus loaded successfully!');
 setTimeout(start, 5000);

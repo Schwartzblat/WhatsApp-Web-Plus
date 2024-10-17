@@ -2,12 +2,13 @@ module.exports = function(grunt) {
     grunt.initConfig({
         concat: {
             options: {
-                banner: 'const main = () => {\n',
-                footer: '\n};\nmain();',
+                banner: 'window.plus_main = () => {\n',
+                footer: '\n};\nif (!window.is_plus_loaded) {\n\twindow.is_plus_loaded = true;\n\twindow.plus_main()\n}',
                 separator: '\n\n',
             },
             dist: {
                 src: [
+                    './scripts/hook.js',
                     './scripts/utils.js',
                     './scripts/modules.js',
                     './scripts/module_raid.js',
