@@ -1,4 +1,12 @@
 class FullscreenHook extends Hook {
+    FULLSCREEN_CSS = `
+        div[id="app"]>div>div[tabindex="-1"] {
+            min-width: 100% !important;
+            height: 100% !important;
+            top: 0 !important;
+        }
+    `;
+
     constructor() {
         super();
         this.style = null;
@@ -9,11 +17,10 @@ class FullscreenHook extends Hook {
         if (this.is_registered) {
             return;
         }
-        
         super.register();
-        
-        this.applyFullscreen();
-        this.setupObserver();
+
+        this.apply_fullscreen();
+        this.setup_observer();
     }
 
     unregister() {
@@ -21,42 +28,35 @@ class FullscreenHook extends Hook {
             return;
         }
         super.unregister();
-        
+
         if (this.style && this.style.parentNode) {
             this.style.parentNode.removeChild(this.style);
         }
-        
+
         if (this.observer) {
             this.observer.disconnect();
         }
-        
+
         this.style = null;
         this.observer = null;
     }
 
-    applyFullscreen() {
+    apply_fullscreen() {
         const targetElement = document.querySelector('div[id="app"]>div>div[tabindex="-1"]');
         if (targetElement) {
-            const css = `
-                div[id="app"]>div>div[tabindex="-1"] {
-                    min-width: 100% !important;
-                    height: 100% !important;
-                    top: 0 !important;
-                }
-            `;
             if (!this.style) {
                 this.style = document.createElement('style');
                 document.head.appendChild(this.style);
             }
-            this.style.textContent = css;
+            this.style.textContent = this.FULLSCREEN_CSS;
         }
     }
 
-    setupObserver() {
+    setup_observer() {
         this.observer = new MutationObserver((mutations) => {
             for (let mutation of mutations) {
                 if (mutation.type === 'childList') {
-                    this.applyFullscreen();
+                    this.apply_fullscreen();
                 }
             }
         });
