@@ -1,7 +1,3 @@
-const STORAGE_KEYS = {
-    'extension_user': 'extensionpay_user'
-}
-
 const settings_toggles = {
     'view_once_media': 'View once bypass',
     'keep_revoked_messages': 'Keep revoked messages',
@@ -28,7 +24,7 @@ const add_setting_toggle = (setting_key, title) => {
     label.textContent = title;
     item.appendChild(label);
 
-    const toggle_switch = document.createElement('div')
+    const toggle_switch = document.createElement('div');
     toggle_switch.setAttribute('class', 'toggle-switch');
 
     const input = document.createElement('input');
@@ -56,4 +52,4 @@ chrome.storage.sync.get('settings').then(data => {
         const item = add_setting_toggle(setting_key, title);
         settings_section.appendChild(item);
     }
-})
+});

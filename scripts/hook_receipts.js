@@ -23,7 +23,7 @@ class HookReceipts extends Hook {
                     receiverId: receipt.from,
                     msgKeys: msg_keys,
                     isSender: false
-                })
+                });
             }
             return original_function(...arguments);
         };

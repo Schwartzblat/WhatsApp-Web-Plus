@@ -128,5 +128,3 @@ dist
 .yarn/install-state.gz
 .pnp.*
 .idea
-/package.json
-/package-lock.json

@@ -2,9 +2,14 @@ module.exports = function(grunt) {
     grunt.initConfig({
         concat: {
             options: {
-                banner: 'window.plus_main = () => {\n',
-                footer: '\n};\nif (!window.is_plus_loaded) {\n\twindow.is_plus_loaded = true;\n\twindow.plus_main()\n}',
+                banner: '/* global require */\nwindow.plus_main = () => {\n',
+                footer: '\n};\nif (!window.is_plus_loaded) {\n    window.is_plus_loaded = true;\n    window.plus_main();\n}',
                 separator: '\n\n',
+                process: function(file) {
+                    return file.split('\n').map(function(line) {
+                        return '    ' + line;
+                    }).join('\n');
+                }
             },
             dist: {
                 src: [

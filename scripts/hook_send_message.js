@@ -24,8 +24,8 @@ class HookSendMessage extends Hook {
                     }
                 }
             }
-            return original_function(message)
-        }
+            return original_function(message);
+        };
     }
 
     unregister() {
@@ -45,5 +45,5 @@ class HookSendMessage extends Hook {
             message.mentionedJidList.push(MODULES.WID_FACTORY.createWid(participant));
         }
         return message;
-    };
+    }
 }

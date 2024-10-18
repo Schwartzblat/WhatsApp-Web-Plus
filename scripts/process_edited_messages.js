@@ -33,7 +33,7 @@ class EditMessageHook extends Hook {
 
     static handle_edited_message() {
         const message = arguments[0];
-        message.type = "chat";
+        message.type = 'chat';
         message.body = `✏️ This message was edited to: ${message?.body || message?.caption}`;
         if (!message.protocolMessageKey) {
             return true;
@@ -41,7 +41,7 @@ class EditMessageHook extends Hook {
         message.quotedStanzaID = message.protocolMessageKey.id;
         message.quotedParticipant = message.protocolMessageKey?.participant || message.from;
         message.quotedMsg = {
-            type: "chat",
+            type: 'chat',
         };
         delete message.latestEditMsgKey;
         delete message.protocolMessageKey;
@@ -51,19 +51,19 @@ class EditMessageHook extends Hook {
         MODULES.PROCESS_RENDERABLE_MESSAGES.processRenderableMessages(
             [message],
             window.webpackChunkwhatsapp_web_client?.length > 0 ? arguments[1] : {
-                "author": message.from,
-                "type": "chat",
-                "externalId": message.id.id,
-                "edit": -1,
-                "isHsm": false,
-                "chat": message.id.remote,
+                'author': message.from,
+                'type': 'chat',
+                'externalId': message.id.id,
+                'edit': -1,
+                'isHsm': false,
+                'chat': message.id.remote,
             },
             null,
-            {verifiedLevel: "unknown"},
+            {verifiedLevel: 'unknown'},
             null,
             0,
             arguments[2] === undefined ? arguments[1] : arguments[2]
         );
         return true;
-    };
+    }
 }
