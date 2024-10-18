@@ -19,8 +19,17 @@ function handle_settings_update() {
     }
 }
 
-
 let active_settings = {};
+
+
+window.addEventListener('message', function (event) {
+    const message = event.data;
+    if (message.settings !== undefined) {
+        active_settings = message.settings;
+        handle_settings_update();
+    }
+});
+
 
 const start = async () => {
     initialize_modules();
@@ -31,13 +40,6 @@ const start = async () => {
     }
 };
 
-window.addEventListener('message', function (event) {
-    const message = event.data;
-    if (message.settings !== undefined) {
-        active_settings = message.settings;
-        handle_settings_update();
-    }
-});
 
 console.log('WhatsApp-Plus loaded successfully!');
 setTimeout(start, 5000);

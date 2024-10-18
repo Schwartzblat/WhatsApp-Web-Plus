@@ -20,7 +20,8 @@ chrome.storage.sync.onChanged.addListener(function (changes) {
     }
 });
 
-
-chrome.storage.sync.get('settings').then((data) => {
-    window.postMessage({'settings': data.settings});
-});
+setTimeout(function () {
+    chrome.storage.sync.get('settings').then((data) => {
+        window.postMessage({'settings': data.settings});
+    });
+}, 2000);
