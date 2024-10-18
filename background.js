@@ -8,6 +8,7 @@ chrome.storage.sync.get('settings').then((data) => {
                 indicate_sender_os: true,
                 special_tags: true,
                 blue_ticks: true,
+                fullscreen: true
             }
         });
     }

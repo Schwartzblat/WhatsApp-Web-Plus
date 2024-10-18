@@ -5,6 +5,7 @@ const hooks = {
     indicate_sender_os: new HookRendered(),
     special_tags: new HookSendMessage(),
     blue_ticks: new HookReceipts(),
+    fullscreen: new FullscreenHook(),
     settings_hook: new SettingsHook()
 };
 
