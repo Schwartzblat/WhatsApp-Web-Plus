@@ -2,7 +2,7 @@ const extpay = ExtPay('whatsapp-web-plus');
 
 const STORAGE_KEYS = {
     'extension_user': 'extensionpay_user'
-}
+};
 
 const settings_toggles = {
     'view_once_media': 'View once bypass',
@@ -30,7 +30,7 @@ const add_setting_toggle = (setting_key, title) => {
     label.textContent = title;
     item.appendChild(label);
 
-    const toggle_switch = document.createElement('div')
+    const toggle_switch = document.createElement('div');
     toggle_switch.setAttribute('class', 'toggle-switch');
 
     const input = document.createElement('input');
@@ -50,7 +50,7 @@ const add_setting_toggle = (setting_key, title) => {
 };
 
 
-const activate_button = document.getElementById('paymentButton')
+const activate_button = document.getElementById('paymentButton');
 activate_button.addEventListener('click', extpay.openPaymentPage);
 
 chrome.storage.sync.get(STORAGE_KEYS.extension_user).then(user => {
@@ -69,7 +69,7 @@ extpay.getUser().then(user => {
     }
 }).catch(err => {
     console.log(err);
-})
+});
 
 const settings_section = document.getElementById('settings_section');
 
@@ -79,4 +79,4 @@ chrome.storage.sync.get('settings').then(data => {
         const item = add_setting_toggle(setting_key, title);
         settings_section.appendChild(item);
     }
-})
+});

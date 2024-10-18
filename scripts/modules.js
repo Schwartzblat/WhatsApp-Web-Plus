@@ -13,7 +13,7 @@ const WA_MODULES = {
     SERVER_PROPS: 'WAWebServerPropConstants',
 };
 
-window.MODULES = {
+let MODULES = {
     PROCESS_EDIT_MESSAGE: undefined,
     PROCESS_RENDERABLE_MESSAGES: undefined,
     MESSAGES_RENDERER: undefined,

@@ -34,21 +34,21 @@ class RenderableMessageHook extends Hook {
         let should_ignore = false;
         should_ignore |= RenderableMessageHook.revoke_handler(message);
         return should_ignore;
-    };
+    }
 
     static revoke_handler(message) {
         if (!REVOKE_SUBTYPES.includes(message?.subtype)) {
             return false;
         }
-        message.type = "chat";
-        message.body = "🚫 This message was deleted!";
+        message.type = 'chat';
+        message.body = '🚫 This message was deleted!';
         message.quotedStanzaID = message.protocolMessageKey.id;
         message.quotedParticipant = message.protocolMessageKey?.participant || message.from;
         message.quotedMsg = {
-            "type": "chat",
+            'type': 'chat',
         };
         delete message.protocolMessageKey;
         delete message.subtype;
         return false;
-    };
+    }
 }

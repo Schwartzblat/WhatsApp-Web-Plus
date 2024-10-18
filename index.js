@@ -18,13 +18,13 @@ extpay.getUser().then(user => {
         console.log('User paid!');
         inject_script('packed.js');
     } else {
-        extpay.openPaymentPage()
+        extpay.openPaymentPage();
         console.log('Paged opened!');
     }
 });
 
 
-chrome.storage.sync.onChanged.addListener(function (changes, namespace) {
+chrome.storage.sync.onChanged.addListener(function (changes) {
     if (changes?.settings !== undefined) {
         handle_settings_update(changes.settings.newValue);
     }

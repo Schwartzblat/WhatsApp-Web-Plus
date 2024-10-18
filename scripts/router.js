@@ -31,7 +31,7 @@ const start = async () => {
     }
 };
 
-window.addEventListener("message", function (event) {
+window.addEventListener('message', function (event) {
     const message = event.data;
     if (message.settings !== undefined) {
         active_settings = message.settings;
