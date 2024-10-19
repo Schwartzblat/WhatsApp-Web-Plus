@@ -31,7 +31,7 @@ window.addEventListener('message', function (event) {
 });
 
 
-const start = async () => {
+const start = () => {
     initialize_modules();
     for (const [setting_name, hook] of Object.entries(hooks)) {
         if (active_settings[setting_name] !== false) {
@@ -42,4 +42,11 @@ const start = async () => {
 
 
 console.log('WhatsApp-Plus loaded successfully!');
-setTimeout(start, 5000);
+// TODO: Solve it the right way. This is a temporary solution.
+const load_and_start = async () => {
+    while (Object.values(WA_MODULES).find(m => require(m) === null) !== undefined) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    start();
+}
+load_and_start();
