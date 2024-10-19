@@ -522,13 +522,14 @@ window.plus_main = () => {
     
     
     console.log('WhatsApp-Plus loaded successfully!');
-    const spinlock = async () => {
+    // TODO: Solve it the right way. This is a temporary solution.
+    const load_and_start = async () => {
         while (Object.values(WA_MODULES).find(m => require(m) === null) !== undefined) {
             await new Promise(resolve => setTimeout(resolve, 100));
         }
         start();
     }
-    spinlock();
+    setTimeout(load_and_start, 1000);
     
 };
 if (!window.is_plus_loaded) {

@@ -49,4 +49,4 @@ const load_and_start = async () => {
     }
     start();
 }
-load_and_start();
+setTimeout(load_and_start, 1000);
