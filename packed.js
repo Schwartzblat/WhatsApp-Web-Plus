@@ -511,7 +511,7 @@ window.plus_main = () => {
     });
     
     
-    const start = async () => {
+    const start = () => {
         initialize_modules();
         for (const [setting_name, hook] of Object.entries(hooks)) {
             if (active_settings[setting_name] !== false) {
@@ -522,7 +522,13 @@ window.plus_main = () => {
     
     
     console.log('WhatsApp-Plus loaded successfully!');
-    setTimeout(start, 5000);
+    const spinlock = async () => {
+        while (Object.values(WA_MODULES).find(m => require(m) === null) !== undefined) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        start();
+    }
+    spinlock();
     
 };
 if (!window.is_plus_loaded) {
