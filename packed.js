@@ -529,7 +529,7 @@ window.plus_main = () => {
         }
         start();
     }
-    load_and_start();
+    setTimeout(load_and_start, 1000);
     
 };
 if (!window.is_plus_loaded) {
