@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/Schwartzblat/WhatsApp-Web-Plus#readme",
   "dependencies": {
-    "extpay": "^3.0.7",
     "grunt": "^1.6.1",
     "grunt-cli": "^1.4.3",
     "grunt-contrib-concat": "^2.1.0"
