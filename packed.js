@@ -528,7 +528,7 @@ window.plus_main = () => {
             await new Promise(resolve => setTimeout(resolve, 100));
         }
         start();
-    }
+    };
     setTimeout(load_and_start, 1000);
     
 };
