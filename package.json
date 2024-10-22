@@ -18,15 +18,16 @@
   },
   "homepage": "https://github.com/Schwartzblat/WhatsApp-Web-Plus#readme",
   "devDependencies": {
+    "@eslint/js": "^9.13.0",
     "del": "^8.0.0",
     "eslint": "^9.13.0",
-    "@eslint/js": "^9.13.0",
     "globals": "^15.11.0",
     "grunt": "^1.6.1",
     "grunt-cli": "^1.4.3",
     "grunt-contrib-concat": "^2.1.0",
     "gulp": "^5.0.0",
     "gulp-zip": "^6.0.0",
-    "typescript-eslint": "^8.11.0"
+    "typescript-eslint": "^8.11.0",
+    "@microsoft/eslint-formatter-sarif": "^3.1.0"
   }
 }
