@@ -19,11 +19,7 @@
   "homepage": "https://github.com/Schwartzblat/WhatsApp-Web-Plus#readme",
   "devDependencies": {
     "del": "^8.0.0",
-    "eslint": "^8.57.1",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.6.0",
+    "eslint": "^9.2.0",
     "globals": "^15.11.0",
     "grunt": "^1.6.1",
     "grunt-cli": "^1.4.3",
