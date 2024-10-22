@@ -16,8 +16,8 @@ module.exports = [
         ignores: [
             'build'
         ],
-        'rules': {
-            'indent': [
+        rules: {
+            indent: [
                 'error',
                 4
             ],
@@ -25,11 +25,11 @@ module.exports = [
                 'error',
                 'windows'
             ],
-            'quotes': [
+            quotes: [
                 'error',
                 'single'
             ],
-            'semi': [
+            semi: [
                 'error',
                 'always'
             ],
@@ -38,8 +38,8 @@ module.exports = [
         }
     },
     {
-        'files': ['packed.js'],
-        'rules': {
+        files: ['packed.js'],
+        rules: {
             'no-unused-vars': 'error',
             'no-undef': 'error'
         }
