@@ -14,7 +14,7 @@ const FILES = [
 ];
 
 const BUILD_PATH = 'build';
-const EXTENSION_FILENAME = 'whatsapp-web-plus'
+const EXTENSION_FILENAME = 'whatsapp-web-plus';
 
 export function clean() {
     return deleteAsync(BUILD_PATH);
