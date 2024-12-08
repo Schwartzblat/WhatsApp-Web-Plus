@@ -41,20 +41,6 @@ body {
     color: #555;
 }
 
-.pay-button {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.pay-button:hover {
-    background-color: #218838;
-}
-
 .footer {
     margin-top: 20px;
     font-size: 12px;

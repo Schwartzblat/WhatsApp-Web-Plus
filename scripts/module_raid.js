@@ -12,6 +12,7 @@ const initialize_modules = () => {
         WEB_ACK: require(WA_MODULES.WEB_ACK),
         WID_FACTORY: require(WA_MODULES.WID_FACTORY),
         SERVER_PROPS: require(WA_MODULES.SERVER_PROPS),
+        REVOKE_CONSTANTS: require(WA_MODULES.REVOKE_CONSTANTS),
     };
     console.log('Modules have been loaded successfully!');
 };
