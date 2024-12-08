@@ -40,6 +40,7 @@ window.plus_main = () => {
         WEB_ACK: 'WAWebAck',
         WID_FACTORY: 'WAWebWidFactory',
         SERVER_PROPS: 'WAWebServerPropConstants',
+        REVOKE_CONSTANTS: 'WAWebRevokeMsgConstants',
     };
     
     let MODULES = {
@@ -55,6 +56,7 @@ window.plus_main = () => {
         WEB_ACK: undefined,
         WID_FACTORY: undefined,
         SERVER_PROPS: undefined,
+        REVOKE_CONSTANTS: undefined,
     };
     
 
@@ -72,6 +74,7 @@ window.plus_main = () => {
             WEB_ACK: require(WA_MODULES.WEB_ACK),
             WID_FACTORY: require(WA_MODULES.WID_FACTORY),
             SERVER_PROPS: require(WA_MODULES.SERVER_PROPS),
+            REVOKE_CONSTANTS: require(WA_MODULES.REVOKE_CONSTANTS),
         };
         console.log('Modules have been loaded successfully!');
     };
@@ -81,6 +84,7 @@ window.plus_main = () => {
         constructor() {
             super();
             this.original_multicats = null;
+            this.original_revoke_window = null;
         }
     
         register() {
@@ -90,6 +94,8 @@ window.plus_main = () => {
             super.register();
             this.original_multicats = MODULES.SERVER_PROPS.MULTICAST_LIMIT_GLOBAL;
             MODULES.SERVER_PROPS.MULTICAST_LIMIT_GLOBAL = Infinity;
+            this.original_revoke_window = MODULES.REVOKE_CONSTANTS.REVOKE_WINDOW;
+            MODULES.REVOKE_CONSTANTS.REVOKE_WINDOW = Infinity;
         }
     
         unregister() {
@@ -97,6 +103,7 @@ window.plus_main = () => {
                 return;
             }
             MODULES.SERVER_PROPS.MULTICAST_LIMIT_GLOBAL = this.original_multicats;
+            MODULES.REVOKE_CONSTANTS.REVOKE_WINDOW = this.original_revoke_window;
         }
     
     }
