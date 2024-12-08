@@ -11,6 +11,7 @@ const WA_MODULES = {
     WEB_ACK: 'WAWebAck',
     WID_FACTORY: 'WAWebWidFactory',
     SERVER_PROPS: 'WAWebServerPropConstants',
+    REVOKE_CONSTANTS: 'WAWebRevokeMsgConstants',
 };
 
 let MODULES = {
@@ -26,4 +27,5 @@ let MODULES = {
     WEB_ACK: undefined,
     WID_FACTORY: undefined,
     SERVER_PROPS: undefined,
+    REVOKE_CONSTANTS: undefined,
 };
