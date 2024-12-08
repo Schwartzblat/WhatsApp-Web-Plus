@@ -5,7 +5,7 @@ const STORAGE_KEYS = {
 };
 
 const settings_toggles = {
-    'view_once_media': 'View once bypass',
+    'view_once_media': 'View once bypass (require re-signing in)',
     'keep_revoked_messages': 'Keep revoked messages',
     'keep_edited_messages': 'Keep edited messages',
     'indicate_sender_os': 'Indicate sender OS',
@@ -54,7 +54,7 @@ const activate_button = document.getElementById('paymentButton');
 activate_button.addEventListener('click', extpay.openPaymentPage);
 
 chrome.storage.sync.get(STORAGE_KEYS.extension_user).then(user => {
-    if (user.extensionpay_user.subscriptionStatus === 'active') {
+    if (user?.extensionpay_user?.subscriptionStatus === 'active') {
         activate_button.innerText = 'Activated! 🎉';
     } else {
         activate_button.innerText = 'Activate';

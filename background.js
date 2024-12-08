@@ -1,3 +1,9 @@
+if ('function' === typeof importScripts) {
+    importScripts('ExtPay.js');
+    const extpay = ExtPay('whatsapp-web-plus');
+    extpay.startBackground();
+}
+
 chrome.storage.sync.get('settings').then((data) => {
     if (data?.settings === undefined) {
         chrome.storage.sync.set({

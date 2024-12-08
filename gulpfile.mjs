@@ -3,6 +3,7 @@ import zip from 'gulp-zip';
 import {deleteAsync, deleteSync} from 'del';
 
 const FILES = [
+    'ExtPay.js',
     'icons/**/*',
     'background.js',
     'index.js',
