@@ -1,3 +1,9 @@
+const storage = (() => {
+    if (typeof browser !== "undefined" && browser.storage)
+        return browser.storage;
+    return chrome.storage;
+})();
+
 const settings_toggles = {
     'view_once_media': 'View once bypass',
     'keep_revoked_messages': 'Keep revoked messages',
@@ -12,7 +18,7 @@ let active_settings = Object.fromEntries(Object.keys(settings_toggles).map(key =
 
 const on_toggle = async (event) => {
     active_settings[event.target.id] = event.target.checked;
-    chrome.storage.sync.set({settings: active_settings});
+    storage.sync.set({settings: active_settings}); // chrome.storage.sync.set
 };
 
 const add_setting_toggle = (setting_key, title) => {
@@ -46,7 +52,7 @@ const add_setting_toggle = (setting_key, title) => {
 
 const settings_section = document.getElementById('settings_section');
 
-chrome.storage.sync.get('settings').then(data => {
+storage.sync.get('settings').then(data => { // chrome.storage.sync.get
     active_settings = data.settings;
     for (const [setting_key, title] of Object.entries(settings_toggles)) {
         const item = add_setting_toggle(setting_key, title);

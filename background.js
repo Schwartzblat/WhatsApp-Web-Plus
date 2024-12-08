@@ -1,6 +1,12 @@
-chrome.storage.sync.get('settings').then((data) => {
+const storage = (() => {
+    if (typeof browser !== "undefined" && browser.storage)
+        return browser.storage;
+    return chrome.storage;
+})();
+
+storage.sync.get('settings').then((data) => { // chrome.storage.sync.get
     if (data?.settings === undefined) {
-        chrome.storage.sync.set({
+        storage.sync.set({ // chrome.storage.sync.set
             settings: {
                 view_once_media: true,
                 keep_revoked_messages: true,
