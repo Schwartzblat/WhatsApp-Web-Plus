@@ -183,7 +183,6 @@ window.plus_main = () => {
             const original_function = this.original_function;
             MODULES.PROCESS_RENDERABLE_MESSAGES.processRenderableMessages = function () {
                 arguments[0] = arguments[0].filter((message) => {
-                    console.log(message);
                     return !RenderableMessageHook.handle_message(message);
                 });
                 return original_function(...arguments);
