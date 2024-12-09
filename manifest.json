@@ -6,6 +6,7 @@
     "storage"
   ],
   "background": {
+    "scripts": ["background.js"],
     "service_worker": "background.js"
   },
   "content_scripts": [
@@ -19,6 +20,14 @@
       "run_at": "document_end"
     }
   ],
+  // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/browser_specific_settings
+  "browser_specific_settings": {
+    "gecko": {
+      // "id": "extensionname@example.org",
+      "id": "{604aa9bf-d6d6-4c83-9ed2-85d4cc5c1ebd}", // random example GUID
+      "strict_min_version": "42.0"
+    }
+  },
   "host_permissions": [
     "https://web.whatsapp.com/"
   ],
