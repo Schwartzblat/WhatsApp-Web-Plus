@@ -13,9 +13,6 @@ module.exports = [
                 'ecmaVersion': 'latest'
             },
         },
-        ignores: [
-            'build'
-        ],
         rules: {
             indent: [
                 'error',
@@ -43,5 +40,11 @@ module.exports = [
             'no-unused-vars': 'error',
             'no-undef': 'error'
         }
+    },
+    {
+        ignores: [
+            'ExtPay.js',
+            'build/**'
+        ]
     }
 ];
