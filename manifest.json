@@ -25,7 +25,10 @@
     "gecko": {
       // "id": "extensionname@example.org",
       "id": "{604aa9bf-d6d6-4c83-9ed2-85d4cc5c1ebd}", // random example GUID
-      "strict_min_version": "42.0"
+      "strict_min_version": "102.0"
+    },
+    "gecko_android": {
+      "strict_min_version": "113.0"
     }
   },
   "host_permissions": [
