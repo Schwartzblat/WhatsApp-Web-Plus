@@ -414,8 +414,9 @@ window.plus_main = () => {
     
 
     class FullscreenHook extends Hook {
+        CSSselector = 'div[id="app"]>div>div>div[tabindex="-1"]';
         FULLSCREEN_CSS = `
-            div[id="app"]>div>div[tabindex="-1"] {
+            ${this.CSSselector} {
                 min-width: 100% !important;
                 height: 100% !important;
                 top: 0 !important;
@@ -457,7 +458,7 @@ window.plus_main = () => {
         }
     
         apply_fullscreen() {
-            const targetElement = document.querySelector('div[id="app"]>div>div[tabindex="-1"]');
+            const targetElement = document.querySelector(this.CSSselector);
             if (targetElement) {
                 if (!this.style) {
                     this.style = document.createElement('style');
