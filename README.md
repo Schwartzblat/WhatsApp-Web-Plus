@@ -11,7 +11,6 @@
 |              @everyone, @admins               |      ✔       |
 |      See blue ticks without sending them      |      ✔       |
 | Forward message to unlimited number of groups |      ✔       |
-|                Fullscreen Mode                |      ✔       |
 |       Revoke messages whenever you want       |      ✔       |
 
 ## Installing from GitHub

@@ -39,7 +39,7 @@ class HookRendered extends Hook {
         if (message_elements.length !== 1) {
             return;
         }
-        const message_parts = Array.from(message_elements[0].childNodes[0].childNodes);
+        const message_parts = Array.from(message_elements[0].childNodes[0].childNodes[0].childNodes[0].childNodes);
         const message_box = message_parts.find((element) => element.innerText.includes(':'));
         if (message_box?.childNodes?.length < 2) {
             return;
