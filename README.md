@@ -4,7 +4,6 @@
 
 |                    Feature                    | Availability |
 |:---------------------------------------------:|:------------:|
-|           View once media disabler            |      ✔       |
 |             Keep revoked messages             |      ✔       |
 |             Keep edited messages              |      ✔       |
 |              Indicate sender OS               |      ✔       |

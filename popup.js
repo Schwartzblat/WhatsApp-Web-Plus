@@ -5,7 +5,6 @@ const STORAGE_KEYS = {
 };
 
 const settings_toggles = {
-    'view_once_media': 'View once bypass (require re-signing in)',
     'keep_revoked_messages': 'Keep revoked messages',
     'keep_edited_messages': 'Keep edited messages',
     'indicate_sender_os': 'Indicate sender OS',

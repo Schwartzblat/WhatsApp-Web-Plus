@@ -31,7 +31,6 @@ window.plus_main = () => {
         PROCESS_EDIT_MESSAGE: 'WAWebDBProcessEditProtocolMsgs',
         PROCESS_RENDERABLE_MESSAGES: 'WAWebMessageProcessRenderable',
         MESSAGES_RENDERER: 'WAWebMessageMeta.react',
-        PROTOBUF_HOOK: 'decodeProtobuf',
         SEND_MESSAGE: 'WAWebSendMsgRecordAction',
         QUERY_GROUP: 'WAWebGroupMsgSendUtils',
         OPEN_CHAT: 'useWAWebSetModelValue',
@@ -47,7 +46,6 @@ window.plus_main = () => {
         PROCESS_EDIT_MESSAGE: undefined,
         PROCESS_RENDERABLE_MESSAGES: undefined,
         MESSAGES_RENDERER: undefined,
-        PROTOBUF_HOOK: undefined,
         SEND_MESSAGE: undefined,
         QUERY_GROUP: undefined,
         OPEN_CHAT: undefined,
@@ -65,7 +63,6 @@ window.plus_main = () => {
             PROCESS_EDIT_MESSAGE: require(WA_MODULES.PROCESS_EDIT_MESSAGE),
             PROCESS_RENDERABLE_MESSAGES: require(WA_MODULES.PROCESS_RENDERABLE_MESSAGES),
             MESSAGES_RENDERER: require(WA_MODULES.MESSAGES_RENDERER),
-            PROTOBUF_HOOK: require(WA_MODULES.PROTOBUF_HOOK),
             QUERY_GROUP: require(WA_MODULES.QUERY_GROUP),
             SEND_MESSAGE: require(WA_MODULES.SEND_MESSAGE),
             OPEN_CHAT: require(WA_MODULES.OPEN_CHAT),
@@ -292,35 +289,6 @@ window.plus_main = () => {
     }
     
 
-    class ProtobufHook extends Hook {
-        constructor() {
-            super();
-            this.original_function = null;
-        }
-    
-        register() {
-            if (this.is_registered) {
-                return;
-            }
-            super.register();
-            this.original_function = MODULES.PROTOBUF_HOOK.decodeProtobuf;
-            const original_function = MODULES.PROTOBUF_HOOK.decodeProtobuf;
-            MODULES.PROTOBUF_HOOK.decodeProtobuf = function () {
-                let message = original_function(...arguments);
-                return set_key_json_recursive(message, 'viewOnce', false);
-            };
-        }
-    
-        unregister() {
-            if (!this.is_registered) {
-                return;
-            }
-            super.unregister();
-            MODULES.PROTOBUF_HOOK.decodeProtobuf = this.original_function;
-        }
-    }
-    
-
     class HookSendMessage extends Hook {
         constructor() {
             super();
@@ -414,7 +382,6 @@ window.plus_main = () => {
     
 
     const hooks = {
-        view_once_media: new ProtobufHook(),
         keep_revoked_messages: new RenderableMessageHook(),
         keep_edited_messages: new EditMessageHook(),
         indicate_sender_os: new HookRendered(),

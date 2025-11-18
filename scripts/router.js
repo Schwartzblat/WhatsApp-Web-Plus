@@ -1,5 +1,4 @@
 const hooks = {
-    view_once_media: new ProtobufHook(),
     keep_revoked_messages: new RenderableMessageHook(),
     keep_edited_messages: new EditMessageHook(),
     indicate_sender_os: new HookRendered(),
